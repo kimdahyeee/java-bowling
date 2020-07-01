@@ -18,11 +18,13 @@ public class Bowling {
     }
 
     public void bowl(int countOfPins) {
-        currentFrame = currentFrame.next(countOfPins);
+        Frame currentFrame = this.currentFrame.next(countOfPins);
 
         if (!currentFrame.hasNext()) {
             this.frames.add(currentFrame);
         }
+
+        this.currentFrame = currentFrame;
     }
 
     public boolean isEnd() {
@@ -31,22 +33,30 @@ public class Bowling {
 
     @Override
     public String toString() {
-        return " | " + player.toString() + " | " + getFrameString();
+        return "| " + player.toString() + " |" + getFrameString();
     }
 
     private String getFrameString() {
         String frame = "";
         for (int i = 0; i < MAX_FRAME; i++) {
-            frame += getFrameString(frame, i) + "|";
+            frame += getFrameString(i) + "|";
         }
         return frame;
     }
 
-    private String getFrameString(String frame, int index) {
+    private String getFrameString(int index) {
         if (frames.size() > index) {
             return frames.get(index).toString();
         }
 
-        return "    ";
+        if (frames.size() == index && currentFrame != null) {
+            return currentFrame.toString();
+        }
+
+        return "      ";
+    }
+
+    public FrameNumber getFrameNumber() {
+        return FrameNumber.of(frames.size() + 1);
     }
 }

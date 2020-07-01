@@ -20,6 +20,12 @@ public class FinalFrame implements Frame {
         this.frameNumber = FrameNumber.of(FINAL_FRAME_NUMBER);
     }
 
+    private FinalFrame(FrameNumber frameNumber, FramePins framePins, Pins bonusPins) {
+        this.frameNumber = frameNumber;
+        this.framePins = framePins;
+        this.bonusPins = bonusPins;
+    }
+
     public static FinalFrame init() {
         return new FinalFrame();
     }
@@ -49,6 +55,11 @@ public class FinalFrame implements Frame {
     }
 
     @Override
+    public FrameNumber getFrameNumber() {
+        return this.frameNumber;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -61,5 +72,10 @@ public class FinalFrame implements Frame {
     @Override
     public int hashCode() {
         return Objects.hash(frameNumber, framePins, bonusPins);
+    }
+
+    @Override
+    public String toString() {
+        return (framePins != null) ? framePins.toString() : "      ";
     }
 }

@@ -2,7 +2,7 @@ package bowling.domain.pin;
 
 public class FramePinsCreator {
     public static FramePins next(FramePins framePins, Pins pins) {
-        if (framePins == null) {
+        if (framePins == null || !framePins.hasNext()) {
             return returnStrikeOrFirstPins(pins);
         }
 

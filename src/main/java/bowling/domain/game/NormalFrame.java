@@ -17,6 +17,14 @@ public class NormalFrame implements Frame {
         this.frameNumber = frameNumber;
     }
 
+    private NormalFrame(final FrameNumber frameNumber, FramePins framePins) {
+        Objects.requireNonNull(frameNumber);
+        Objects.requireNonNull(framePins);
+
+        this.frameNumber = frameNumber;
+        this.framePins = framePins;
+    }
+
     public static NormalFrame init() {
         return new NormalFrame(FrameNumber.of(FIRST_FRAME_NUMBER));
     }
@@ -29,7 +37,7 @@ public class NormalFrame implements Frame {
     public Frame next(int countOfPins) {
         this.framePins = FramePinsCreator.next(framePins, Pins.of(countOfPins));
 
-        if (framePins.hasNext()) {
+        if (!framePins.hasNext()) {
             return this;
         }
 
@@ -47,7 +55,16 @@ public class NormalFrame implements Frame {
 
     @Override
     public boolean hasNext() {
+        if (framePins == null) {
+            return true;
+        }
+
         return framePins.hasNext();
+    }
+
+    @Override
+    public FrameNumber getFrameNumber() {
+        return this.frameNumber;
     }
 
     @Override
@@ -62,5 +79,10 @@ public class NormalFrame implements Frame {
     @Override
     public int hashCode() {
         return Objects.hash(frameNumber, framePins);
+    }
+
+    @Override
+    public String toString() {
+        return (framePins != null) ? framePins.toString() : "      ";
     }
 }
